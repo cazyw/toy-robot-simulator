@@ -20,6 +20,7 @@ class Table
             @table[(@pos[1]-4).abs][@pos[0]] = "x"
         end
 
+        # the starting position is (0,0) in the south west corner
         # to account for starting in bottom left corner
         modrow = (row-4).abs
         @table[modrow][col] = "O"
@@ -79,6 +80,13 @@ class Table
                     val = 3
                 end
                 @face = nav[val]
+            when "right"
+                val = nav.index(@face) + 1
+                # to wrap the direction
+                if val === 4
+                    val = 0
+                end
+                @face = nav[val]
             else
         end
         printTable
@@ -88,7 +96,7 @@ class Table
     def printTable
         puts @table.map { |x| x.join(" ") }
         puts "position: #{@pos} facing #{@face}"
-        return "position: #{@pos} facing #{@face}"
+        return "Output: #{@pos[0]},#{@pos[1]},#{@face}"
     end
 
     def get_command(command)
@@ -99,19 +107,19 @@ class Table
                 col, row, face = match.captures
                 place_robot(col.to_i, row.to_i, face)
                 puts "ok"
-                return self
             when "MOVE"
                 move      
-                return self
             when "LEFT"
                 turn("left")
-                return self
+            when "RIGHT"
+                turn("right")
             when "REPORT"
-                printTable
+                return printTable
             else
-                puts "invalid command"
+                puts "${command} is an invalid command. Try again."
                 return [self, "invalid command"]
         end 
+        return self
     end
 
 end

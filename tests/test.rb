@@ -45,10 +45,11 @@ class TestRobot < Test::Unit::TestCase
         result = t.get_command("PLACE 5,0,NORTH")
         assert_equal("invalid command", result[1])           
     end
+    
     def test_input_report_robot_not_set
         t = Table.new
         result = t.get_command("REPORT")
-        assert_equal("position: [-1, -1] facing directionless", result)         
+        assert_equal("Output: -1,-1,directionless", result)         
     end
 
     def test_input_report_robot_set_to_3_3
@@ -56,7 +57,7 @@ class TestRobot < Test::Unit::TestCase
         t = t.get_command("PLACE 3,2,NORTH")
         t = t.get_command("PLACE 3,3,SOUTH")
         result = t.get_command("REPORT")
-        assert_equal("position: [3, 3] facing SOUTH", result)        
+        assert_equal("Output: 3,3,SOUTH", result)        
     end
 
     def test_input_move_robot_valid_moves
@@ -65,7 +66,7 @@ class TestRobot < Test::Unit::TestCase
         t = t.get_command("MOVE")
         t = t.get_command("MOVE")
         result = t.get_command("REPORT")
-        assert_equal("position: [3, 4] facing NORTH", result)        
+        assert_equal("Output: 3,4,NORTH", result)        
     end
 
     def test_input_move_robot_invalid_moves_ignored
@@ -75,31 +76,42 @@ class TestRobot < Test::Unit::TestCase
         t = t.get_command("MOVE")
         t = t.get_command("MOVE")
         result = t.get_command("REPORT")
-        assert_equal("position: [3, 4] facing NORTH", result)        
-    end
+        assert_equal("Output: 3,4,NORTH", result)        
 
-    def test_input_move_robot_invalid_moves_ignored_2
         t = Table.new
         t = t.get_command("PLACE 4,2,EAST")
         t = t.get_command("MOVE")
         result = t.get_command("REPORT")
-        assert_equal("position: [4, 2] facing EAST", result)        
+        assert_equal("Output: 4,2,EAST", result)        
     end
 
     def test_input_turn_robot_left
         t = Table.new
         t = t.get_command("PLACE 4,2,EAST")
         t = t.get_command("LEFT")
-        result = t.get_command("REPORT")
-        assert_equal("position: [4, 2] facing NORTH", result)        
+        assert_equal("NORTH", t.face)    
+        assert_equal([4, 2], t.pos)     
+        t = t.get_command("LEFT")
+        t = t.get_command("LEFT")
+        assert_equal("SOUTH", t.face)
+        assert_equal([4, 2], t.pos)  
+        t = t.get_command("LEFT")
+        assert_equal("EAST", t.face)  
+        assert_equal([4, 2], t.pos)          
     end
 
-    def test_input_turn_robot_left_twice
+    def test_input_turn_robot_right
         t = Table.new
-        t = t.get_command("PLACE 4,2,EAST")
-        t = t.get_command("LEFT")
-        t = t.get_command("LEFT")
-        result = t.get_command("REPORT")
-        assert_equal("position: [4, 2] facing WEST", result)        
+        t = t.get_command("PLACE 3,1,NORTH")
+        t = t.get_command("RIGHT")
+        assert_equal("EAST", t.face)    
+        assert_equal([3, 1], t.pos)     
+        t = t.get_command("RIGHT")
+        t = t.get_command("RIGHT")
+        assert_equal("WEST", t.face)
+        assert_equal([3, 1], t.pos)  
+        t = t.get_command("RIGHT")
+        assert_equal("NORTH", t.face)  
+        assert_equal([3, 1], t.pos)          
     end
 end
