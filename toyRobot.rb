@@ -1,21 +1,22 @@
 # Toy Robot Simulator
 
 class Table
-    attr_reader :table, :pos, :face
+    attr_reader :table, :pos, :face, :robot_placed
 
     # Setup the table
     def initialize
         @table = Array.new(5) { Array.new(5, "x") }
         @pos = [-1,-1]
         @face = "directionless"
+        @robot_placed = false
         puts "Initialise table"
         printTable
     end
 
-    def place_robot(col, row, f)
+    def place_robot(col, row, face)
 
         # there's already a game underway
-        if (@pos[0] >= 0)
+        if @robot_placed
             @table[(@pos[1]-4).abs][@pos[0]] = "x"
         end
 
@@ -23,14 +24,15 @@ class Table
         modrow = (row-4).abs
         @table[modrow][col] = "O"
         @pos = [col, row]
-        @face = f
+        @face = face
+        @robot_placed = true
         printTable  
         return self
     end
 
     def move
-        # if negative, robot has not been placed so ignore the action
-        if (@pos[0] < 0)
+        # check if robot placed yet
+        if !(@robot_placed)
             return self
         end
 
@@ -62,8 +64,9 @@ class Table
     end
 
     def turn(direction)
-        # if negative, robot has not been placed so ignore the action
-        if (@pos[0] < 0)
+        
+        # check if robot placed yet
+        if !(@robot_placed)
             return self
         end
 
@@ -107,7 +110,7 @@ class Table
                 printTable
             else
                 puts "invalid command"
-                return "invalid command"
+                return [self, "invalid command"]
         end 
     end
 

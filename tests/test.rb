@@ -10,6 +10,7 @@ class TestRobot < Test::Unit::TestCase
         assert_equal(true, t.is_a?(Table))
         assert_equal([-1, -1], t.pos)
         assert_equal("directionless", t.face)
+        assert_equal(false, t.robot_placed)
     end
 
     def test_input_place_valid
@@ -18,22 +19,18 @@ class TestRobot < Test::Unit::TestCase
         result = t.get_command(input)
         assert_equal(true, result.is_a?(Table))
         assert_equal([0, 0], result.pos)
-        assert_equal("NORTH", result.face)       
+        assert_equal("NORTH", result.face) 
+        assert_equal(true, result.robot_placed)      
     end
 
-    def test_input_place_invalid_direction
+    def test_input_place_invalid_commands
         t = Table.new
         input = "PLACE 0,0,UP"
         result = t.get_command(input)
-        assert_equal("invalid command", result)       
+        assert_equal("invalid command", result[1])       
+        result = result[0].get_command("PLACE 0,,UP")
+        assert_equal("invalid command", result[1])       
     end
-
-    def test_input_place_invalid_arguments
-        t = Table.new
-        result = t.get_command("PLACE 0,,UP")
-        assert_equal("invalid command", result)       
-    end
-
 
     def test_input_place_places_robot_3_2_west
         t = Table.new
@@ -46,7 +43,7 @@ class TestRobot < Test::Unit::TestCase
     def test_input_place_ignores_robot_5_0_north
         t = Table.new
         result = t.get_command("PLACE 5,0,NORTH")
-        assert_equal("invalid command", result)           
+        assert_equal("invalid command", result[1])           
     end
     def test_input_report_robot_not_set
         t = Table.new
