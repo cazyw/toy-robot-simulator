@@ -1,6 +1,7 @@
 # Toy Robot Simulator
+# This class 
 
-class Table
+class ToyRobot
     attr_reader :table, :pos, :face, :robot_placed
 
     # Setup the table
@@ -116,7 +117,7 @@ class Table
             when "REPORT"
                 return printTable
             else
-                puts "${command} is an invalid command. Try again."
+                puts "#{command} is an invalid command. Try again."
                 return [self, "invalid command"]
         end 
         return self
@@ -134,7 +135,7 @@ end
 # REPORT
 
 def play_game
-    t = Table.new
+    t = ToyRobot.new
     print "> "
     input = gets.chomp
     while (input != "report")
