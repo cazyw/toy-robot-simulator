@@ -71,6 +71,7 @@ class Table
         case direction
             when "left"
                 val = nav.index(@face) - 1
+                # to wrap the direction
                 if val === -1
                     val = 3
                 end
