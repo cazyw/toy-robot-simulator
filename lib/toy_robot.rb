@@ -5,7 +5,7 @@
 class ToyRobot
     attr_reader :table, :pos, :face, :robot_placed
 
-    # Setup the table
+    # Setup the table and robot
     def initialize
         @table = Array.new(5) { Array.new(5, "x") }
         @pos = [-1,-1]
@@ -15,7 +15,7 @@ class ToyRobot
 
     def place_robot(col, row, face)
 
-        # there's already a game underway
+        # there's already a game underway re-mark the square with 'x'
         if @robot_placed
             @table[(@pos[1]-4).abs][@pos[0]] = "x"
         end
@@ -97,7 +97,7 @@ class ToyRobot
     end
 
     def get_command(command)
-        command.upcase!
+        command = command.upcase
         case command
             when /^PLACE *([0-4]), *([0-4]), *(NORTH|SOUTH|EAST|WEST)$/i 
                 match = command.match(/^PLACE *([0-4]), *([0-4]), *(NORTH|SOUTH|EAST|WEST)$/i)
@@ -138,29 +138,29 @@ def play_game
     puts "Toy Robot Simulator"
     puts "=" * 10
     print "Choose 'file' or 'stdin': "
-    choice = gets.chomp.downcase!
+    choice = gets.chomp.downcase
 
     # check valid choice
     while !(choice =~ /^(file|stdin)$/)
         print "Choose 'file' or 'stdin': "
-        choice = gets.chomp.downcase!
+        choice = gets.chomp.downcase
     end
 
     case choice
         # input from the command line
         when "stdin"
             print "> "
-            input = gets.chomp.upcase!
+            input = gets.chomp.upcase
             while (!(input == "REPORT" && t.robot_placed))
                 t.get_command(input)
                 print "> "
-                input = gets.chomp.upcase!
+                input = gets.chomp.upcase
             end
             t.game_status
     
         # input from a file
         when "file"
-            print "enter a file > "
+            print "Enter a file > "
             file = gets.chomp
             while (!File.exists?(file))
                 print "File doesn't exist. Enter a file > "
@@ -169,17 +169,12 @@ def play_game
 
             File.open(file) do |f|
                 commands = f.readlines
-                puts commands
                 commands.each do |x|
                     next if x.chomp == ""
                     t.get_command(x.chomp)
                 end
             end
-        else
-
     end
-
-    
 end
 
 # execute the file only if run directly from terminal

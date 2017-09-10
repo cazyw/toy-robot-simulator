@@ -3,7 +3,7 @@ require "test/unit"
 
 class TestRobot < Test::Unit::TestCase
 
-    def test_ToyRobot_grid
+    def test_ToyRobot_setup
         t = ToyRobot.new
         assert_equal([["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"]], t.table)
         assert_equal(true, t.is_a?(ToyRobot))
@@ -14,35 +14,44 @@ class TestRobot < Test::Unit::TestCase
 
     def test_input_place_valid
         t = ToyRobot.new
-        input = "PLACE 0,0,NORTH"
-        result = t.get_command(input)
+        result = t.get_command("PLACE 0,0,NORTH")
         assert_equal(true, result.is_a?(ToyRobot))
         assert_equal([0, 0], result.pos)
         assert_equal("NORTH", result.face) 
-        assert_equal(true, result.robot_placed)      
+        assert_equal(true, result.robot_placed) 
+        
+        result = t.get_command("PLACE 2, 1, SOUTH")
+        assert_equal(true, result.is_a?(ToyRobot))
+        assert_equal([2, 1], result.pos)
+        assert_equal("SOUTH", result.face) 
+        assert_equal(true, result.robot_placed) 
+
+        result = t.get_command("place 3, 2, east")
+        assert_equal(true, result.is_a?(ToyRobot))
+        assert_equal([3, 2], result.pos)
+        assert_equal("EAST", result.face) 
+        assert_equal(true, result.robot_placed) 
+
+        # place twice
+        result = t.get_command("PLACE 3,2,WEST")
+        result = result.get_command("PLACE 2,0,NORTH")
+        assert_equal(true, result.is_a?(ToyRobot))
+        assert_equal([2, 0], result.pos)
+        assert_equal("NORTH", result.face)  
     end
 
     def test_input_place_invalid_commands
         t = ToyRobot.new
-        input = "PLACE 0,0,UP"
-        result = t.get_command(input)
+        result = t.get_command("PLACE 0,0,UP")
         assert_equal("invalid command", result[1])       
-        result = result[0].get_command("PLACE 0,,UP")
-        assert_equal("invalid command", result[1])       
-    end
-
-    def test_input_place_places_robot_3_2_west
-        t = ToyRobot.new
-        result = t.get_command("PLACE 3,2,WEST")
-        assert_equal(true, result.is_a?(ToyRobot))
-        assert_equal([3, 2], result.pos)
-        assert_equal("WEST", result.face)      
-    end
-
-    def test_input_place_ignores_robot_5_0_north
-        t = ToyRobot.new
+        result = t.get_command("PLACE 0,,EAST")
+        assert_equal("invalid command", result[1])      
+        result = t.get_command("PLACE 0,5,NORTH")
+        assert_equal("invalid command", result[1])  
         result = t.get_command("PLACE 5,0,NORTH")
-        assert_equal("invalid command", result[1])           
+        assert_equal("invalid command", result[1]) 
+        result = t.get_command("PLACE -1,0,NORTH")
+        assert_equal("invalid command", result[1]) 
     end
     
     def test_input_report_robot_not_set
@@ -52,14 +61,6 @@ class TestRobot < Test::Unit::TestCase
         assert_equal("directionless", t.face)        
     end
 
-    def test_input_report_robot_set_to_3_3
-        t = ToyRobot.new
-        t = t.get_command("PLACE 3,2,NORTH")
-        t = t.get_command("PLACE 3,3,SOUTH")
-        result = t.get_command("REPORT")
-        assert_equal([3, 3], t.pos)
-        assert_equal("SOUTH", t.face)       
-    end
 
     def test_input_move_robot_valid_moves
         t = ToyRobot.new
@@ -81,7 +82,6 @@ class TestRobot < Test::Unit::TestCase
         assert_equal([3, 4], t.pos)
         assert_equal("NORTH", t.face)       
 
-        t = ToyRobot.new
         t = t.get_command("PLACE 4,2,EAST")
         t = t.get_command("MOVE")
         result = t.get_command("REPORT")
@@ -94,11 +94,13 @@ class TestRobot < Test::Unit::TestCase
         t = t.get_command("PLACE 4,2,EAST")
         t = t.get_command("LEFT")
         assert_equal("NORTH", t.face)    
-        assert_equal([4, 2], t.pos)     
+        assert_equal([4, 2], t.pos) 
+
         t = t.get_command("LEFT")
         t = t.get_command("LEFT")
         assert_equal("SOUTH", t.face)
         assert_equal([4, 2], t.pos)  
+
         t = t.get_command("LEFT")
         assert_equal("EAST", t.face)  
         assert_equal([4, 2], t.pos)          
@@ -109,11 +111,13 @@ class TestRobot < Test::Unit::TestCase
         t = t.get_command("PLACE 3,1,NORTH")
         t = t.get_command("RIGHT")
         assert_equal("EAST", t.face)    
-        assert_equal([3, 1], t.pos)         
+        assert_equal([3, 1], t.pos)  
+               
         t = t.get_command("RIGHT")
         t = t.get_command("RIGHT")
         assert_equal("WEST", t.face)
         assert_equal([3, 1], t.pos)  
+
         t = t.get_command("RIGHT")
         assert_equal("NORTH", t.face)  
         assert_equal([3, 1], t.pos)          
