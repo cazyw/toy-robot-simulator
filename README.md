@@ -56,6 +56,8 @@ To run the test suite, run the command (in \toyRobotSimulator)
 $ rake test
 ```
 
+The last test tests the input from a number of files in \tests
+
 ## Overview
 
 The application simulates the movements of a robot on a 5x5 grid. Users first place the robot on the table facing a particular direction, and then move and turn the robot.  Users can then end the application and obtain the robot's location.
@@ -125,9 +127,9 @@ Output: (2,4) facing EAST
 2. The robot must be placed on the table before any of the other commands are actioned
 
 ## Discussion
-For this application I modeled the game in a ToyRobot class. This was so that instances of the robot game could be created and the state of the robot tracked. The input mechanics were placed in an outside separate method.
+For this application I modeled the game in a ToyRobot class. This was so that instances of the robot game could be created and the state of the robot tracked. The input mechanics were placed in an outside separate method. The game currently ends when `REPORT` is entered.
 
-Currently the entire application runs from one file with the input commands and robot modelling together. This should be separated into at least two files with the ToyRobot class in a separate file for re-usability. 
+Currently the entire application runs from one file with the input commands and robot modelling together. This should be separated into at least two files later  with the ToyRobot class in a separate file for re-usability. 
 
 The test cases were written using test-unit (Test::Unit) as this was the first framework I'd used. The test cases test the class methods involved in placing and moving pieces around the table. At the moment it does not test user input from $stdin (the play_game method) which is something I need to investigate further. The testing for this was done manually by running the simulation and testing different inputs. 
 

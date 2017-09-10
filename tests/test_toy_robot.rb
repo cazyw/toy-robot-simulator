@@ -45,7 +45,7 @@ class TestRobot < Test::Unit::TestCase
     def test_input_place_invalid_commands
         result = @t.get_command("PLACE 0,0,UP")
         assert_equal("invalid command", result[1]) 
-              
+
         result = @t.get_command("PLACE 0,,EAST")
         assert_equal("invalid command", result[1])
 
@@ -72,7 +72,7 @@ class TestRobot < Test::Unit::TestCase
         assert_equal([-1, -1], @t.pos)
         assert_equal("directionless", @t.face)  
 
-        result = @t.get_command"(RIGHT")
+        result = @t.get_command("RIGHT")
         assert_equal([-1, -1], @t.pos)
         assert_equal("directionless", @t.face)  
     end
