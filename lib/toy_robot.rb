@@ -13,7 +13,7 @@ class ToyRobot
         @robot_placed = false
     end
 
-    def place_robot(col, row, face)
+    def place_robot(col, row, direction)
 
         # there's already a game underway re-mark the square with 'x'
         if @robot_placed
@@ -26,7 +26,7 @@ class ToyRobot
 
         @table[modrow][col] = "O"
         @pos = [col, row]
-        @face = face
+        @face = direction
         @robot_placed = true
         return self
     end
@@ -37,7 +37,7 @@ class ToyRobot
             return self
         end
 
-        # values to change the robot on the board (visual representation)
+        # values to change the robot position on the board (visual representation)
         direction = {
             "NORTH" => [-1, 0], 
             "SOUTH" => [1, 0],
@@ -49,7 +49,7 @@ class ToyRobot
         curX = @pos[0]
         curY = @pos[1]
    
-        # check if move takes it out of bounds
+        # check if the move takes it out of bounds
         if (curX + moveX > 4 || curY - moveY > 4 ||
             curX + moveX < 0 || curY - moveY < 0)
             puts "Move ignored as the robot will move off the table"
@@ -63,7 +63,6 @@ class ToyRobot
     end
 
     def turn(direction)
-        
         # check if robot placed yet
         if !(@robot_placed)
             return self

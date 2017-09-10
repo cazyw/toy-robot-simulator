@@ -129,6 +129,8 @@ For this application I modeled the game in a ToyRobot class. This was so that in
 
 Currently the entire application runs from one file with the input commands and robot modelling together. This should be separated into at least two files with the ToyRobot class in a separate file for re-usability. 
 
+The test cases test the class methods involved in placing and moving pieces around the table. At the moment it does not test user input from $stdin (the play_game method) which is something I need to investigate further. The testing for this was done manually by running the simulation and testing different inputs.
+
 Although it was not required to output a pictorial representation of the robot and table, I had implemented the grid as one of the first steps of building the application. This was to help me to visualise and understand where the robot was and the direction it was moving. Although it's been removed as an output after every command, I have left it in the final output when the robot's location is reported.
 
 
