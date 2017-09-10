@@ -1,5 +1,6 @@
 # Toy Robot Simulator
-# This class 
+# the function play_game runs the game.
+# The game ends when REPORT is entered
 
 class ToyRobot
     attr_reader :table, :pos, :face, :robot_placed
@@ -10,8 +11,6 @@ class ToyRobot
         @pos = [-1,-1]
         @face = "directionless"
         @robot_placed = false
-        puts "Initialise table"
-        printTable
     end
 
     def place_robot(col, row, face)
@@ -24,11 +23,11 @@ class ToyRobot
         # the starting position is (0,0) in the south west corner
         # to account for starting in bottom left corner
         modrow = (row-4).abs
+
         @table[modrow][col] = "O"
         @pos = [col, row]
         @face = face
         @robot_placed = true
-        printTable  
         return self
     end
 
@@ -53,15 +52,13 @@ class ToyRobot
         # check if move takes it out of bounds
         if (curX + moveX > 4 || curY - moveY > 4 ||
             curX + moveX < 0 || curY - moveY < 0)
-            puts "out of bounds"
+            puts "Move ignored as the robot will move off the table"
         else
             @table[(curY-4).abs][curX] = "x"
             @pos[1] -= moveY
             @pos[0] += moveX
             @table[(@pos[1]-4).abs][@pos[0]] = "O"
-            puts "valid move"
         end
-        printTable
         return self
     end
 
@@ -90,14 +87,13 @@ class ToyRobot
                 @face = nav[val]
             else
         end
-        printTable
         return self
     end
 
-    def printTable
+    def game_status
         puts @table.map { |x| x.join(" ") }
         puts "position: #{@pos} facing #{@face}"
-        return "Output: #{@pos[0]},#{@pos[1]},#{@face}"
+        @robot_placed ? "Output: (#{@pos[0]},#{@pos[1]}), facing #{@face}" : "Robot has not been placed yet"
     end
 
     def get_command(command)
@@ -107,7 +103,6 @@ class ToyRobot
                 match = command.match(/^PLACE *([0-4]), *([0-4]), *(NORTH|SOUTH|EAST|WEST)$/i)
                 col, row, face = match.captures
                 place_robot(col.to_i, row.to_i, face)
-                puts "ok"
             when "MOVE"
                 move      
             when "LEFT"
@@ -115,7 +110,7 @@ class ToyRobot
             when "RIGHT"
                 turn("right")
             when "REPORT"
-                return printTable
+                return game_status
             else
                 puts "#{command} is an invalid command. Try again."
                 return [self, "invalid command"]
@@ -126,7 +121,10 @@ class ToyRobot
 end
 
 
-# Main function that runs the game and gets user input
+# Main function that runs the game and either
+# gets input from the command line
+# gets input from a file (passed as an argument)
+
 # Valid inputs will be
 # PLACE x,y,direction
 # MOVE
@@ -134,17 +132,33 @@ end
 # RIGHT
 # REPORT
 
-def play_game
+def main
+    
     t = ToyRobot.new
-    print "> "
-    input = gets.chomp
-    while (input != "report")
-        t.get_command(input)
+    file = ARGV[0]
+
+    # input from the command line
+    if ARGV.empty?
         print "> "
         input = gets.chomp
+        while (input != "report")
+            t.get_command(input)
+            print "> "
+            input = gets.chomp
+        end
+        t.game_status
+    
+    # input from a file
+    else
+        File.open(file) do |f|
+            commands = f.readlines
+            commands.each do |x|
+                next if x.chomp == ""
+                t.get_command(x.chomp)
+            end
+        end
     end
-    t.printTable
     
 end
 
-# play_game
+play_game
