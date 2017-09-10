@@ -8,6 +8,8 @@ class TestRobot < Test::Unit::TestCase
         t = Table.new
         t == [["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"]]
         assert_equal(true, t.is_a?(Table))
+        assert_equal([-1, -1], t.pos)
+        assert_equal("directionless", t.face)
     end
 
     def test_input_place_valid

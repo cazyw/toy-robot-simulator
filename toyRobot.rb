@@ -1,14 +1,19 @@
 # Toy Robot Simulator
 
 class Table
-    attr_reader :table
+    attr_reader :table, :pos, :face
     # Setup the table
     def initialize
         @table = Array.new(5) { Array.new(5, "x") }
-        puts @table.map { |x| x.join(" ") }
+        @pos = [-1,-1]
+        @face = "directionless"
+        printTable
     end
 
-    
+    def printTable
+        puts @table.map { |x| x.join(" ") }
+        puts "position: #{@pos} facing #{@face}"
+    end
 
 end
 
