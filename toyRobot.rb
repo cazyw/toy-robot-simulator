@@ -61,6 +61,26 @@ class Table
         return self
     end
 
+    def turn(direction)
+        # if negative, robot has not been placed so ignore the action
+        if (@pos[0] < 0)
+            return self
+        end
+
+        nav = ["NORTH", "EAST", "SOUTH", "WEST"]
+        case direction
+            when "left"
+                val = nav.index(@face) - 1
+                if val === -1
+                    val = 3
+                end
+                @face = nav[val]
+            else
+        end
+        printTable
+        return self
+    end
+
     def printTable
         puts @table.map { |x| x.join(" ") }
         puts "position: #{@pos} facing #{@face}"
@@ -78,6 +98,9 @@ class Table
                 return self
             when "MOVE"
                 move      
+                return self
+            when "LEFT"
+                turn("left")
                 return self
             when "REPORT"
                 printTable
