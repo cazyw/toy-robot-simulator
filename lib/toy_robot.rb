@@ -14,14 +14,13 @@ class ToyRobot
     end
 
     def place_robot(col, row, direction)
-
-        # there's already a game underway re-mark the square with 'x'
+        # check if the robot has already been placed 
         if @robot_placed
             @table[(@pos[1]-4).abs][@pos[0]] = "x"
         end
 
         # the starting position is (0,0) in the south west corner
-        # to account for starting in bottom left corner
+        # mod needed to account for starting in bottom left corner
         modrow = (row-4).abs
 
         @table[modrow][col] = "O"

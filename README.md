@@ -50,7 +50,7 @@ See the Overview section below for further instructions
 
 ## Testing Instructions
 
-To run the test suite, in the root directory run the command
+To run the test suite, run the command (in \toyRobotSimulator)
 
 ```
 $ rake test
@@ -62,7 +62,7 @@ The application simulates the movements of a robot on a 5x5 grid. Users first pl
 
 ### Commands  
 
-The following commands (case insenistive) are valid:
+The following commands (case insensitive) are valid:
 
 * `PLACE x, y, DIRECTION` - places the robot on the table. the `x` and `y` coordinates must be between 0 and 4, with (0, 0) being the south-west corner of the table. Direction values are `NORTH`, `SOUTH`, `EAST`, `WEST`. 
 * `MOVE` - moves the robot one square in the direction it's facing
@@ -117,7 +117,7 @@ X X X O X
 X X X X X
 X X X X X
 X X X X X
-Output: (3,3) facing NORTH
+Output: (2,4) facing EAST
 ```
 
 ### Restrictions
@@ -129,7 +129,7 @@ For this application I modeled the game in a ToyRobot class. This was so that in
 
 Currently the entire application runs from one file with the input commands and robot modelling together. This should be separated into at least two files with the ToyRobot class in a separate file for re-usability. 
 
-The test cases test the class methods involved in placing and moving pieces around the table. At the moment it does not test user input from $stdin (the play_game method) which is something I need to investigate further. The testing for this was done manually by running the simulation and testing different inputs.
+The test cases were written using test-unit (Test::Unit) as this was the first framework I'd used. The test cases test the class methods involved in placing and moving pieces around the table. At the moment it does not test user input from $stdin (the play_game method) which is something I need to investigate further. The testing for this was done manually by running the simulation and testing different inputs. 
 
 Although it was not required to output a pictorial representation of the robot and table, I had implemented the grid as one of the first steps of building the application. This was to help me to visualise and understand where the robot was and the direction it was moving. Although it's been removed as an output after every command, I have left it in the final output when the robot's location is reported.
 
