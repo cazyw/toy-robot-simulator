@@ -92,8 +92,8 @@ class ToyRobot
 
     def game_status
         puts @table.map { |x| x.join(" ") }
-        puts "position: #{@pos} facing #{@face}"
-        @robot_placed ? "Output: (#{@pos[0]},#{@pos[1]}), facing #{@face}" : "Robot has not been placed yet"
+        puts "Output: (#{@pos[0]},#{@pos[1]}) facing #{@face}"
+        @robot_placed ? "Output: (#{@pos[0]},#{@pos[1]}) facing #{@face}" : "Robot has not been placed yet"
     end
 
     def get_command(command)
@@ -110,7 +110,7 @@ class ToyRobot
             when "RIGHT"
                 turn("right")
             when "REPORT"
-                return game_status
+                game_status
             else
                 puts "#{command} is an invalid command. Try again."
                 return [self, "invalid command"]
@@ -122,8 +122,8 @@ end
 
 
 # Main function that runs the game and either
-# gets input from the command line
-# gets input from a file (passed as an argument)
+# gets input from the command line or
+# gets input from a file
 
 # Valid inputs will be
 # PLACE x,y,direction
@@ -132,33 +132,58 @@ end
 # RIGHT
 # REPORT
 
-def main
+def play_game
     
     t = ToyRobot.new
-    file = ARGV[0]
+    puts "Toy Robot Simulator"
+    puts "=" * 10
+    print "Choose 'file' or 'stdin': "
+    choice = gets.chomp.downcase!
 
-    # input from the command line
-    if ARGV.empty?
-        print "> "
-        input = gets.chomp
-        while (input != "report")
-            t.get_command(input)
-            print "> "
-            input = gets.chomp
-        end
-        t.game_status
-    
-    # input from a file
-    else
-        File.open(file) do |f|
-            commands = f.readlines
-            commands.each do |x|
-                next if x.chomp == ""
-                t.get_command(x.chomp)
-            end
-        end
+    # check valid choice
+    while !(choice =~ /^(file|stdin)$/)
+        print "Choose 'file' or 'stdin': "
+        choice = gets.chomp.downcase!
     end
+
+    case choice
+        # input from the command line
+        when "stdin"
+            print "> "
+            input = gets.chomp.upcase!
+            while (!(input == "REPORT" && t.robot_placed))
+                t.get_command(input)
+                print "> "
+                input = gets.chomp.upcase!
+            end
+            t.game_status
+    
+        # input from a file
+        when "file"
+            print "enter a file > "
+            file = gets.chomp
+            while (!File.exists?(file))
+                print "File doesn't exist. Enter a file > "
+                file = gets.chomp
+            end
+
+            File.open(file) do |f|
+                commands = f.readlines
+                puts commands
+                commands.each do |x|
+                    next if x.chomp == ""
+                    t.get_command(x.chomp)
+                end
+            end
+        else
+
+    end
+
     
 end
 
-play_game
+# execute the file only if run directly from terminal
+# prevents the game from automatically running when using test file
+if __FILE__ == $0
+    play_game
+end

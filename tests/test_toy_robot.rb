@@ -3,7 +3,6 @@ require "test/unit"
 
 class TestRobot < Test::Unit::TestCase
 
-    # test the ToyRobot is set up 5 x 5
     def test_ToyRobot_grid
         t = ToyRobot.new
         assert_equal([["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"]], t.table)
@@ -49,7 +48,8 @@ class TestRobot < Test::Unit::TestCase
     def test_input_report_robot_not_set
         t = ToyRobot.new
         result = t.get_command("REPORT")
-        assert_equal("Robot has not been placed yet", result)         
+        assert_equal([-1, -1], t.pos)
+        assert_equal("directionless", t.face)        
     end
 
     def test_input_report_robot_set_to_3_3
@@ -57,7 +57,8 @@ class TestRobot < Test::Unit::TestCase
         t = t.get_command("PLACE 3,2,NORTH")
         t = t.get_command("PLACE 3,3,SOUTH")
         result = t.get_command("REPORT")
-        assert_equal("Output: (3,3), facing SOUTH", result)        
+        assert_equal([3, 3], t.pos)
+        assert_equal("SOUTH", t.face)       
     end
 
     def test_input_move_robot_valid_moves
@@ -66,7 +67,8 @@ class TestRobot < Test::Unit::TestCase
         t = t.get_command("MOVE")
         t = t.get_command("MOVE")
         result = t.get_command("REPORT")
-        assert_equal("Output: (3,4), facing NORTH", result)        
+        assert_equal([3, 4], t.pos)
+        assert_equal("NORTH", t.face)  
     end
 
     def test_input_move_robot_invalid_moves_ignored
@@ -76,13 +78,15 @@ class TestRobot < Test::Unit::TestCase
         t = t.get_command("MOVE")
         t = t.get_command("MOVE")
         result = t.get_command("REPORT")
-        assert_equal("Output: (3,4), facing NORTH", result)        
+        assert_equal([3, 4], t.pos)
+        assert_equal("NORTH", t.face)       
 
         t = ToyRobot.new
         t = t.get_command("PLACE 4,2,EAST")
         t = t.get_command("MOVE")
         result = t.get_command("REPORT")
-        assert_equal("Output: (4,2), facing EAST", result)        
+        assert_equal([4, 2], t.pos)
+        assert_equal("EAST", t.face)        
     end
 
     def test_input_turn_robot_left
@@ -124,7 +128,9 @@ class TestRobot < Test::Unit::TestCase
                 t = t.get_command(x.chomp)
             end
         end
-        assert_equal("Output: (0,1), facing NORTH", t)
+        assert_equal([0, 1], t.pos)
+        assert_equal("NORTH", t.face)
+
         t = ToyRobot.new
         File.open("./tests/robot_commands_2.txt") do |f|
             commands = f.readlines
@@ -133,7 +139,9 @@ class TestRobot < Test::Unit::TestCase
                 t = t.get_command(x.chomp)
             end
         end
-        assert_equal("Output: (0,0), facing WEST", t)
+        assert_equal([0, 0], t.pos)
+        assert_equal("WEST", t.face)
+
         t = ToyRobot.new
         File.open("./tests/robot_commands_3.txt") do |f|
             commands = f.readlines
@@ -142,6 +150,18 @@ class TestRobot < Test::Unit::TestCase
                 t = t.get_command(x.chomp)
             end
         end
-        assert_equal("Output: (3,3), facing NORTH", t) 
+        assert_equal([3, 3], t.pos)
+        assert_equal("NORTH", t.face)
+
+        t = ToyRobot.new
+        File.open("./tests/robot_commands_4.txt") do |f|
+            commands = f.readlines
+            commands.each do |x|
+                next if x.chomp == ""
+                t = t.get_command(x.chomp)
+            end
+        end
+        assert_equal([3, 3], t.pos)
+        assert_equal("WEST", t.face)
     end
 end
