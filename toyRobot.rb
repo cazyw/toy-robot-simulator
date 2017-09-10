@@ -29,28 +29,31 @@ class Table
     end
 
     def move
-        # if negative, robot has not been placed
+        # if negative, robot has not been placed so ignore the action
         if (@pos[0] < 0)
             return self
         end
 
-        # values to change the robot on the board
+        # values to change the robot on the board (visual representation)
         direction = {
             "NORTH" => [-1, 0], 
             "SOUTH" => [1, 0],
             "EAST" => [0, 1],
             "WEST" => [0, -1]
         }
-        moveBy = direction[@face]
-        
+        moveY = direction[@face][0]
+        moveX = direction[@face][1]
+        curX = @pos[0]
+        curY = @pos[1]
+   
         # check if move takes it out of bounds
-        if (@pos[0] + moveBy[1] > 4 || @pos[1] - moveBy[0] > 4 ||
-            @pos[0] + moveBy[1] < 0 || @pos[1] - moveBy[0] < 0)
+        if (curX + moveX > 4 || curY - moveY > 4 ||
+            curX + moveX < 0 || curY - moveY < 0)
             puts "out of bounds"
         else
-            @table[(@pos[1]-4).abs][@pos[0]] = "x"
-            @pos[1] -= moveBy[0]
-            @pos[0] += moveBy[1]
+            @table[(curY-4).abs][curX] = "x"
+            @pos[1] -= moveY
+            @pos[0] += moveX
             @table[(@pos[1]-4).abs][@pos[0]] = "O"
             puts "valid move"
         end
@@ -74,7 +77,7 @@ class Table
                 puts "ok"
                 return self
             when "MOVE"
-                move
+                move      
                 return self
             when "REPORT"
                 printTable
@@ -108,4 +111,4 @@ def play_game
     
 end
 
-play_game
+# play_game
