@@ -11,17 +11,17 @@ class Table
 
     def piece_removed (pos)
         @table[(pos[1] - @t_size).abs][pos[0]] = "x"
-        @table
+        return @table
     end
-
+    
     def piece_added (pos)
         @table[(pos[1] -  @t_size).abs][pos[0]] = "O"
-        @table
+        return @table
     end
     
     def print_table
         puts "\n"
         puts @table.map { |x| x.join(" ") }
-        @table
+        return @table
     end
 end

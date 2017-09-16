@@ -18,11 +18,7 @@ class Game
             puts "Already placed"
             @table.piece_removed(@robot.robot[:pos])
         end
-
-        # the starting position is (0,0) in the south west corner
-        # mod needed to account for starting in bottom left corner
-        # modrow = (row-4).abs
-
+        
         @table.piece_added([row, col])
         @robot.set_robot_position(row, col)
         @robot.set_robot_direction(direction)
