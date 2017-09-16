@@ -8,17 +8,17 @@ class Table
         @table = Array.new(5) { Array.new(5, "x") }
     end
 
-    def pieceRemoved (pos)
+    def piece_removed (pos)
         @table[(pos[1]-4).abs][pos[0]] = "x"
         @table
     end
 
-    def pieceAdded (pos)
+    def piece_added (pos)
         @table[(pos[1]-4).abs][pos[0]] = "O"
         @table
     end
     
-    def printTable
+    def print_table
         puts @table.map { |x| x.join(" ") }
         @table
     end

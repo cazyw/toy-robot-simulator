@@ -15,17 +15,17 @@ class TestTable < Test::Unit::TestCase
 
     def test_table_add_piece
         table = [["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["O", "x", "x", "x", "x"]]
-        @t.pieceAdded([0, 0])
-        assert_equal(table, @t.printTable)
+        @t.piece_added([0, 0])
+        assert_equal(table, @t.print_table)
     end
 
     def test_table_remove_piece
         table = [["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "O", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"]]
-        @t.pieceAdded([0, 0])
-        @t.pieceRemoved([0, 0])
-        @t.pieceAdded([3, 2])
+        @t.piece_added([0, 0])
+        @t.piece_removed([0, 0])
+        @t.piece_added([3, 2])
 
-        assert_equal(table, @t.printTable)
+        assert_equal(table, @t.print_table)
     end
 
 end
