@@ -43,16 +43,26 @@ class Game
         end
         return self
     end
+
+    def show_table
+        @table.print_table
+        return self
+    end
+
+    def show_robot
+        puts @robot.print_robot
+        return self
+    end
 end
 
 g = Game.new
 g.position_robot(0,0)
 g.robot.set_robot_direction("NORTH")
-g.table.print_table
-puts g.robot.print_robot
+g.show_table
+g.show_robot
 g.position_robot(2, 3)
 g.robot.set_robot_direction("SOUTH")
-g.table.print_table
-puts g.robot.print_robot
+g.show_table
+g.show_robot
 g.turn_robot("LEFT")
-puts g.robot.print_robot
+g.show_robot
