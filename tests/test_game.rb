@@ -1,4 +1,5 @@
-require "./lib/game.rb"
+$: << "../lib"
+require "game"
 require "test/unit"
 
 class TestGame < Test::Unit::TestCase

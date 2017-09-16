@@ -5,7 +5,7 @@ class TestTable < Test::Unit::TestCase
 
     def setup
         # @t = ToyRobot.new
-        @t = Table.new
+        @t = Table.new(5)
     end
 
     def test_table_setup
