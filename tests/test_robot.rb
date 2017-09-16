@@ -8,12 +8,16 @@ class TestRobot < Test::Unit::TestCase
         @r = Robot.new
     end
 
-    def test_table_setup
+    def test_robot_setup
         assert_equal(true, @r.is_a?(Robot))
         assert_equal([-1, -1], @r.robot[:pos])
         assert_equal("", @r.robot[:dir])
     end
 
+    def test_robot_active
+        assert_equal(false, @r.robot_active?)
+
+    end
 
 
 end
