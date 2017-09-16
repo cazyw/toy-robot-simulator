@@ -42,6 +42,7 @@ def play_game
                 end
             end
     end
+    print_exit
 end
 
 # execute the file only if run directly from terminal

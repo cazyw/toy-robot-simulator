@@ -1,6 +1,8 @@
+# General constants and printing methods
+
 module Setting
 
-    T_SIZE = 4; # assuming start from 0
+    T_SIZE = 4; # 5x5 grid as tables start from zero
     DIRECTION = { "NORTH" => [-1, 0], "SOUTH" => [1, 0], "EAST" => [0, 1], "WEST" => [0, -1] }
     NAV = ["NORTH", "EAST", "SOUTH", "WEST"]
 
@@ -31,7 +33,7 @@ module Setting
 
     def print_exit
         puts "=" * 20
-        puts "Thank you for playing the Toy Robot Simulator"
+        puts "Thanks for playing the Toy Robot Simulator"
         puts "=" * 20
 
     end
