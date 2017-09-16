@@ -1,7 +1,7 @@
 require "./lib/table.rb"
 require "test/unit"
 
-class TestRobot < Test::Unit::TestCase
+class TestTable < Test::Unit::TestCase
 
     def setup
         # @t = ToyRobot.new

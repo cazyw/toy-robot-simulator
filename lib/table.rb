@@ -1,4 +1,5 @@
-# Table class for the Toy RObot Simulator
+# Table class for the Toy Robot Simulator
+# Manipulates the table
 
 class Table
     attr_accessor :table
