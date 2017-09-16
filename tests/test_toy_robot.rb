@@ -1,11 +1,18 @@
 require "./lib/toy_robot.rb"
+require "./lib/table.rb"
 require "test/unit"
 
 class TestRobot < Test::Unit::TestCase
 
     def setup
-        @t = ToyRobot.new
+        # @t = ToyRobot.new
+        @t = Table.new
     end
+
+    def test_table_setup
+        assert_equal(true, @t.is_a?(Table))
+    end
+
 
     def test_ToyRobot_setup
         assert_equal([["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"]], @t.table)
