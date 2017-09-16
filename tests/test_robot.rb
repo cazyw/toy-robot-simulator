@@ -4,7 +4,6 @@ require "test/unit"
 class TestRobot < Test::Unit::TestCase
 
     def setup
-        # @t = ToyRobot.new
         @r = Robot.new
     end
 
