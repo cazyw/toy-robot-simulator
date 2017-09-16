@@ -7,12 +7,7 @@ require_relative 'robot'
 class Game
     attr_accessor :table, :robot
     T_SIZE = 4; # assuming start from 0
-    DIRECTION = {
-        "NORTH" => [-1, 0], 
-        "SOUTH" => [1, 0],
-        "EAST" => [0, 1],
-        "WEST" => [0, -1]
-    }
+    DIRECTION = { "NORTH" => [-1, 0], "SOUTH" => [1, 0], "EAST" => [0, 1], "WEST" => [0, -1] }
     NAV = ["NORTH", "EAST", "SOUTH", "WEST"]
 
     ERROR_MSG = {
@@ -21,12 +16,11 @@ class Game
     }
 
     def initialize
-        @table = Table.new(T_SIZE + 1) # table started from 0
+        @table = Table.new(T_SIZE + 1) # table starts from 0
         @robot = Robot.new
     end
 
     def position_robot(col, row)
-        # check if the robot has already been placed 
         if @robot.robot_active?
             @table.piece_removed(@robot.robot[:pos])
         end
@@ -50,17 +44,19 @@ class Game
     end
 
     def move_robot
-        moveY = DIRECTION[@robot.robot[:dir]][0]
-        moveX = DIRECTION[@robot.robot[:dir]][1]
-        curX = @robot.robot[:pos][0]
-        curY = @robot.robot[:pos][1]
-   
-        # check if the move takes it out of bounds
-        if (curX + moveX > T_SIZE || curY - moveY > T_SIZE ||
-            curX + moveX < 0 || curY - moveY < 0)
-            puts ERROR_MSG[:off_table]
-        else
-            position_robot(curX + moveX, curY - moveY)
+        if @robot.robot_active?
+            moveY = DIRECTION[@robot.robot[:dir]][0]
+            moveX = DIRECTION[@robot.robot[:dir]][1]
+            curX = @robot.robot[:pos][0]
+            curY = @robot.robot[:pos][1]
+    
+            # check if the move takes it out of bounds
+            if (curX + moveX > T_SIZE || curY - moveY > T_SIZE ||
+                curX + moveX < 0 || curY - moveY < 0)
+                puts ERROR_MSG[:off_table]
+            else
+                position_robot(curX + moveX, curY - moveY)
+            end
         end
         return self
     end
