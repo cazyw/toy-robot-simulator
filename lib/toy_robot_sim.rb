@@ -1,4 +1,5 @@
 require_relative 'game'
+require_relative 'setting'
 
 def play_game
 
@@ -18,9 +19,11 @@ def play_game
     case choice
         # input from the command line
         when "stdin"
+            print "Enter a command: PLACE <0-#{T_SIZE}>, <0-#{T_SIZE}>, <NORTH|SOUTH|EAST|WEST> | MOVE | LEFT | RIGHT | REPORT"
+            print "REPORT will exit the simulator"
             print "> "
             input = gets.chomp.upcase
-            while (!(input == "REPORT" && t.robot_placed))
+            while (!(input == "REPORT"))
                 t.get_command(input)
                 print "> "
                 input = gets.chomp.upcase
