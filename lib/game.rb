@@ -13,16 +13,19 @@ class Game
     }
     @@nav = ["NORTH", "EAST", "SOUTH", "WEST"]
 
+    @@error_msg = {
+        off_table: "Move ignored as the robot will fall off the table",
+        invalid_command: "Invalid command. Valid commands are: PLACE <0-#{T_SIZE}>, <0-#{T_SIZE}>, <NORTH|SOUTH|EAST|WEST> | MOVE | LEFT | RIGHT | REPORT"
+    }
+
     def initialize
         @table = Table.new(T_SIZE + 1) # table started from 0
         @robot = Robot.new
     end
 
-
     def position_robot(col, row)
         # check if the robot has already been placed 
         if @robot.robot_active?
-            puts "Already placed"
             @table.piece_removed(@robot.robot[:pos])
         end
         @table.piece_added([col, row])
@@ -53,7 +56,7 @@ class Game
         # check if the move takes it out of bounds
         if (curX + moveX > T_SIZE || curY - moveY > T_SIZE ||
             curX + moveX < 0 || curY - moveY < 0)
-            puts "Move ignored as the robot will fall off the table"
+            puts @@error_msg[:off_table]
         else
             position_robot(curX + moveX, curY - moveY)
         end
@@ -67,6 +70,31 @@ class Game
 
     def show_robot
         puts @robot.print_robot
+        return self
+    end
+
+    def commands(command)
+        command = command.upcase
+        placing = command.match(/^PLACE *([0-#{T_SIZE}]), *([0-#{T_SIZE}]), *(NORTH|SOUTH|EAST|WEST)$/i)
+        unless (placing === nil)
+            col, row, direction = placing.captures
+            command = "PLACED"
+        end
+        case command
+            when "PLACED" 
+                position_robot(col.to_i, row.to_i)
+                @robot.set_robot_direction(direction)
+            when "MOVE"
+                move_robot      
+            when "LEFT"
+                turn_robot("LEFT")
+            when "RIGHT"
+                turn_robot("RIGHT")
+            when "REPORT"
+                show_robot
+            else
+                puts @@error_msg[:invalid_command]
+        end 
         return self
     end
 end
@@ -88,5 +116,12 @@ g.show_robot
 g.turn_robot("RIGHT")
 g.show_robot
 g.move_robot
+g.show_table
+g.show_robot
+g.commands("PLACE 0, 4, SOUTH")
+g.commands("MOVE")
+g.show_table
+g.show_robot
+g.commands("PLACE 2, 5, WEST")
 g.show_table
 g.show_robot

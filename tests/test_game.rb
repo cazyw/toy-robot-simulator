@@ -53,4 +53,23 @@ class TestGame < Test::Unit::TestCase
         assert_equal([3, 4], @game.robot.robot[:pos])
     end
 
+    def test_commands
+        @game.commands("PLACE 0, 0, NORTH")
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        assert_equal([0, 0], @game.robot.robot[:pos])
+        @game.commands("MOVE")
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        assert_equal([0, 1], @game.robot.robot[:pos])
+        @game.commands("RIGHT")
+        assert_equal("EAST", @game.robot.robot[:dir])
+        assert_equal([0, 1], @game.robot.robot[:pos])
+        @game.commands("LEFT")
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        assert_equal([0, 1], @game.robot.robot[:pos])
+        @game.commands("REPORT")
+        assert_equal("Output: [0, 1] facing NORTH", @game.robot.print_robot)
+        @game.commands("PLACE 3, 2, NOWHERE")
+        assert_equal("Output: [0, 1] facing NORTH", @game.robot.print_robot)
+    end
+
 end
