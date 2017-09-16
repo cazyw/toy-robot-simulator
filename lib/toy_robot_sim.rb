@@ -1,6 +1,9 @@
 require_relative 'game'
 require_relative 'setting'
 
+# Toy Robot Simulator
+# Users interact with the game via this method
+
 def play_game
     include Setting
     t = Game.new
@@ -37,7 +40,6 @@ def play_game
             File.open(file) do |f|
                 instructions = f.readlines
                 instructions.each do |x|
-                    next if x.chomp == ""
                     t.commands(x.chomp)
                 end
             end
