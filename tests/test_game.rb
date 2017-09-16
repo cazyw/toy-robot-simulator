@@ -16,18 +16,22 @@ class TestGame < Test::Unit::TestCase
         # assert_equal()
     end
     
-    def test_robot_placed_valid
-        @game.place_robot(0, 0,"NORTH")
+    def test_robot_position_valid
+        @game.position_robot(0, 0)
         assert_equal([["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["O", "x", "x", "x", "x"]], @game.table.print_table)
         assert_equal([0, 0], @game.robot.robot[:pos])
-        assert_equal("NORTH", @game.robot.robot[:dir])
-        @game.place_robot(4, 1,"WEST")
+        @game.position_robot(4, 1)
         assert_equal([["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "O"], ["x", "x", "x", "x", "x"]], @game.table.print_table)
         assert_equal([4, 1], @game.robot.robot[:pos])
-        assert_equal("WEST", @game.robot.robot[:dir])
-        @game.place_robot(1, 3,"SOUTH")
+        @game.position_robot(1, 3)
         assert_equal([["x", "x", "x", "x", "x"], ["x", "O", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"], ["x", "x", "x", "x", "x"]], @game.table.print_table)
         assert_equal([1, 3], @game.robot.robot[:pos])
+    end
+
+    def test_robot_direction_valid
+        @game.direction_robot("NORTH")
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        @game.direction_robot("SOUTH")
         assert_equal("SOUTH", @game.robot.robot[:dir])
     end
 
