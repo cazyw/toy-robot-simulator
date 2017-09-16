@@ -28,10 +28,12 @@ class TestGame < Test::Unit::TestCase
         assert_equal([1, 3], @game.robot.robot[:pos])
     end
 
-    def test_robot_direction_valid
-        @game.direction_robot("NORTH")
-        assert_equal("NORTH", @game.robot.robot[:dir])
-        @game.direction_robot("SOUTH")
+    def test_robot_turn
+        @game.position_robot(0, 0)
+        @game.robot.set_robot_direction("NORTH")
+        @game.turn_robot("LEFT")
+        assert_equal("WEST", @game.robot.robot[:dir])
+        @game.turn_robot("LEFT")
         assert_equal("SOUTH", @game.robot.robot[:dir])
     end
 
