@@ -2,11 +2,23 @@
 # Manipulates the robot
 
 class Robot
-    attr_accessor :robot_pos, :robot_dir
+    attr_accessor :robot
 
     def initialize
-        @robot_pos = [-1,-1]
-        @robot_dir = ""
+        @robot = {
+            pos: [-1, -1],
+            dir: ""
+        }
+    end
+
+    def move_robot
+    end
+
+    def turn_robot
+    end
+
+    def print_robot
+
     end
 
 end
