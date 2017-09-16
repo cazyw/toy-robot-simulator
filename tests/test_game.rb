@@ -39,4 +39,18 @@ class TestGame < Test::Unit::TestCase
         assert_equal([3, 2], @game.robot.robot[:pos])
     end
 
+    def test_robot_move
+        @game.position_robot(3, 2)
+        @game.robot.set_robot_direction("NORTH")
+        @game.move_robot
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        assert_equal([3, 3], @game.robot.robot[:pos])
+        @game.move_robot
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        assert_equal([3, 4], @game.robot.robot[:pos])
+        @game.move_robot
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        assert_equal([3, 4], @game.robot.robot[:pos])
+    end
+
 end
