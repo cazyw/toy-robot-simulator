@@ -16,7 +16,7 @@ class TestRobot < Test::Unit::TestCase
 
     def test_robot_active
         assert_equal(false, @r.robot_active?)
-
+        assert_equal("robot is inactive", @r.print_robot)
     end
 
 

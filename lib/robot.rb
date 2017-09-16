@@ -12,7 +12,7 @@ class Robot
     end
 
     def robot_active?
-        @robot[:pos][0] === -1 ? false : true
+        !!@robot[:pos][0] === -1
     end
 
     def move_robot
@@ -23,7 +23,7 @@ class Robot
     end
 
     def print_robot
-        @robot.robot_active? ? "active" : "unplaced"
+        self.robot_active? ? "Output: #{@robot[:pos]} facing #{@robot[:dir]}" : "robot is inactive"
         # puts "Output: #{@robot[:pos]} facing #{@robot[:dir]}"
         # @robot_placed ? "Output: (#{@pos[0]},#{@pos[1]}) facing #{@face}" : "Robot has not been placed yet"
     end
