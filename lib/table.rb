@@ -20,8 +20,8 @@ class Table
     end
     
     def print_table
-        puts "\n"
         puts @table.map { |x| x.join(" ") }
+        puts "\n"
         return @table
     end
 end

@@ -17,9 +17,9 @@ def play_game
     case choice
         # input from the command line
         when "stdin"
-           print_instructions
+            print_instructions
             input = gets.chomp.upcase
-            while (!(input == "EXIT"))
+            while !(input === "EXIT")
                 t.commands(input)
                 print "> "
                 input = gets.chomp.upcase
@@ -27,9 +27,9 @@ def play_game
     
         # input from a file
         when "file"
-            print "Enter a file > "
+            print "Enter a file: "
             file = gets.chomp
-            while (!File.exists?(file))
+            while !File.exists?(file)
                 print ERROR_MSG[:invalid_file]
                 file = gets.chomp
             end

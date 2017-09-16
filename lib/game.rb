@@ -9,7 +9,6 @@ class Game
     include Setting
     attr_accessor :table, :robot
     
-
     def initialize
         @table = Table.new(T_SIZE + 1) # table starts from 0
         @robot = Robot.new
@@ -84,8 +83,9 @@ class Game
             when "RIGHT"
                 turn_robot("RIGHT")
             when "REPORT"
-                show_table
                 show_robot
+                show_table
+                
             else
                 puts ERROR_MSG[:invalid_command]
         end 

@@ -13,7 +13,8 @@ module Setting
 
     def print_intro
         puts "\n" + "=" * 20
-        puts "Toy Robot Simulator\n" + "=" * 20
+        puts "Toy Robot Simulator\n"
+        puts "=" * 20
         print "Choose 'file' or 'stdin': "
     end
 
@@ -26,6 +27,13 @@ module Setting
         puts "\tREPORT"
         puts "\tEXIT (which will also end the simulator)"
         print "> "
+    end
+
+    def print_exit
+        puts "=" * 20
+        puts "Thank you for playing the Toy Robot Simulator"
+        puts "=" * 20
+
     end
 
 end
