@@ -33,10 +33,25 @@ class TestGame < Test::Unit::TestCase
         @game.robot.set_robot_direction("NORTH")
         @game.turn_robot("LEFT")
         assert_equal("WEST", @game.robot.robot[:dir])
-        assert_equal([3, 2], @game.robot.robot[:pos])
         @game.turn_robot("LEFT")
         assert_equal("SOUTH", @game.robot.robot[:dir])
-        assert_equal([3, 2], @game.robot.robot[:pos])
+        @game.turn_robot("LEFT")
+        assert_equal("EAST", @game.robot.robot[:dir])
+        @game.turn_robot("LEFT")
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        @game.turn_robot("LEFT")
+        assert_equal("WEST", @game.robot.robot[:dir])
+
+        @game.turn_robot("RIGHT")
+        assert_equal("NORTH", @game.robot.robot[:dir])
+        @game.turn_robot("RIGHT")
+        assert_equal("EAST", @game.robot.robot[:dir])
+        @game.turn_robot("RIGHT")
+        assert_equal("SOUTH", @game.robot.robot[:dir])
+        @game.turn_robot("RIGHT")
+        assert_equal("WEST", @game.robot.robot[:dir])
+        @game.turn_robot("RIGHT")
+        assert_equal("NORTH", @game.robot.robot[:dir])
     end
 
     def test_robot_move
@@ -67,27 +82,35 @@ class TestGame < Test::Unit::TestCase
         assert_equal("NORTH", @game.robot.robot[:dir])
         assert_equal([0, 1], @game.robot.robot[:pos])
         @game.commands("REPORT")
-        assert_equal("Output: [0, 1] facing NORTH", @game.robot.print_robot)
+        assert_equal([0, 1], @game.robot.robot[:pos])
+        assert_equal("NORTH", @game.robot.robot[:dir])
     end
 
     def test_commands_invalid
         # bad commands do nothing
         @game.commands("MOVE") 
-        assert_equal("robot is inactive", @game.robot.print_robot)
+        assert_equal([-1, -1], @game.robot.robot[:pos])
+        assert_equal("", @game.robot.robot[:dir])
         @game.commands("LEFT") 
-        assert_equal("robot is inactive", @game.robot.print_robot)
+        assert_equal([-1, -1], @game.robot.robot[:pos])
+        assert_equal("", @game.robot.robot[:dir])
         @game.commands("RIGHT") 
-        assert_equal("robot is inactive", @game.robot.print_robot)
+        assert_equal([-1, -1], @game.robot.robot[:pos])
+        assert_equal("", @game.robot.robot[:dir])
 
         @game.commands("PLACE 0, 1, NORTH")
         @game.commands("PLACE 3, 2, NOWHERE")
-        assert_equal("Output: [0, 1] facing NORTH", @game.robot.print_robot)
+        assert_equal([0, 1], @game.robot.robot[:pos])
+        assert_equal("NORTH", @game.robot.robot[:dir])
         @game.commands("PLACE 3, 5, WEST")
-        assert_equal("Output: [0, 1] facing NORTH", @game.robot.print_robot)
+        assert_equal([0, 1], @game.robot.robot[:pos])
+        assert_equal("NORTH", @game.robot.robot[:dir])
         @game.commands("RANDOM")
-        assert_equal("Output: [0, 1] facing NORTH", @game.robot.print_robot)
+        assert_equal([0, 1], @game.robot.robot[:pos])
+        assert_equal("NORTH", @game.robot.robot[:dir])
         @game.commands("MOVEE")
-        assert_equal("Output: [0, 1] facing NORTH", @game.robot.print_robot)
+        assert_equal([0, 1], @game.robot.robot[:pos])
+        assert_equal("NORTH", @game.robot.robot[:dir])
     end
 
 end

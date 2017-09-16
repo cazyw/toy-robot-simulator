@@ -1,7 +1,9 @@
 # Robot class for the Toy Robot Simulator
-# Manipulates the robot
+# Monitors the robot
+require_relative 'setting'
 
 class Robot
+    include Setting
     attr_accessor :robot
 
     def initialize
@@ -26,7 +28,8 @@ class Robot
     end
 
     def print_robot
-        self.robot_active? ? "Output: #{@robot[:pos]} facing #{@robot[:dir]}" : "robot is inactive"
+        self.robot_active? ? (puts "Output: #{@robot[:pos]} facing #{@robot[:dir]}") : (puts ERROR_MSG[:robot_inactive])
+        return self
     end
 
 end

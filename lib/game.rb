@@ -31,7 +31,7 @@ class Game
                 when "LEFT"
                     dir_index === 0 ? dir_index = T_SIZE - 1 : dir_index -= 1
                 when "RIGHT"
-                    dir_index === T_SIZE ? dir_index = 0 : dir_index += 1
+                    dir_index === T_SIZE - 1 ? dir_index = 0 : dir_index += 1
             end
             @robot.set_robot_direction(NAV[dir_index])
         end
@@ -62,7 +62,7 @@ class Game
     end
 
     def show_robot
-        puts @robot.print_robot
+        @robot.print_robot
         return self
     end
 
@@ -84,6 +84,7 @@ class Game
             when "RIGHT"
                 turn_robot("RIGHT")
             when "REPORT"
+                show_table
                 show_robot
             else
                 puts ERROR_MSG[:invalid_command]

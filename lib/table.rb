@@ -1,5 +1,5 @@
 # Table class for the Toy Robot Simulator
-# Manipulates the table
+# Creats the table and plots the robot
 
 class Table
     attr_accessor :table
