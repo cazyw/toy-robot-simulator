@@ -1,6 +1,15 @@
 # Table class for the Toy Robot Simulator
 # Creats the table and plots the robot
 
+# Position (3, 2) will plot to the following:
+
+#   x x x x x
+#   x x x x x
+#   x x x O x
+#   x x x x x
+#   x x x x x
+
+
 class Table
     attr_accessor :table
     @t_size = 0;

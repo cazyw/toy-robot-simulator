@@ -44,7 +44,7 @@ $ bundle install
 Open a terminal to run the toy robot simulator (direction of '\\' may vary according to the environment - commands below are for a windows environment )
 
 ```
-$ ruby .\lib\toy_robot.rb
+$ ruby .\lib\toy_robot_sim.rb
 ```
 
 See the Overview section below for further instructions

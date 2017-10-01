@@ -13,16 +13,17 @@ class Game
         @table = Table.new(T_SIZE + 1) # table starts from 0
         @robot = Robot.new
     end
-
-    def position_robot(col, row)
+    
+    def position_robot(col, row, direction)
         if @robot.robot_active?
             @table.piece_removed(@robot.robot[:pos])
         end
         @table.piece_added([col, row])
         @robot.set_robot_position(col, row)
+        @robot.set_robot_direction(direction)
         return self
     end
-
+    
     def turn_robot(turn)
         if @robot.robot_active?
             dir_index = NAV.index(@robot.robot[:dir])
@@ -33,10 +34,12 @@ class Game
                     dir_index === T_SIZE - 1 ? dir_index = 0 : dir_index += 1
             end
             @robot.set_robot_direction(NAV[dir_index])
+        else
+            puts ERROR_MSG[:robot_inactive]
         end
         return self
     end
-
+    
     def move_robot
         if @robot.robot_active?
             moveY = DIRECTION[@robot.robot[:dir]][0]
@@ -49,8 +52,10 @@ class Game
                 curX + moveX < 0 || curY - moveY < 0)
                 puts ERROR_MSG[:off_table]
             else
-                position_robot(curX + moveX, curY - moveY)
+                position_robot(curX + moveX, curY - moveY, @robot.robot[:dir])
             end
+        else
+            puts ERROR_MSG[:robot_inactive]
         end
         return self
     end
@@ -74,8 +79,7 @@ class Game
         end
         case command
             when "PLACED" 
-                position_robot(col.to_i, row.to_i)
-                @robot.set_robot_direction(direction)
+                position_robot(col.to_i, row.to_i, direction)
             when "MOVE"
                 move_robot      
             when "LEFT"
