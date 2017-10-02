@@ -8,27 +8,27 @@ class Robot
 
     def initialize
         @robot = {
-            pos: [-1, -1],
-            dir: ""
+            position: [-1, -1],
+            direction: ""
         }
     end
 
     def robot_active?
-        @robot[:pos][0] != -1
+        @robot[:position][0] != -1
     end
 
     def set_robot_position(row, col)
-        @robot[:pos] = [row, col]
+        @robot[:position] = [row, col]
         return self
     end
 
     def set_robot_direction(direction)
-        @robot[:dir] = direction
+        @robot[:direction] = direction
         return self
     end
 
     def print_robot
-        self.robot_active? ? (puts "Output: #{@robot[:pos]} facing #{@robot[:dir]}") : (puts ERROR_MSG[:robot_inactive])
+        self.robot_active? ? (puts "Output: #{@robot[:position]} facing #{@robot[:direction]}") : (puts ERROR_MSG[:robot_inactive])
         return self
     end
 

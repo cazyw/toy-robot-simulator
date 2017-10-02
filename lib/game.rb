@@ -10,13 +10,13 @@ class Game
     attr_accessor :table, :robot
     
     def initialize
-        @table = Table.new(T_SIZE + 1) # table starts from 0
+        @table = Table.new(TABLE_SIZE + 1) # table starts from 0
         @robot = Robot.new
     end
     
     def position_robot(col, row, direction)
         if @robot.robot_active?
-            @table.piece_removed(@robot.robot[:pos])
+            @table.piece_removed(@robot.robot[:position])
         end
         @table.piece_added([col, row])
         @robot.set_robot_position(col, row)
@@ -26,14 +26,14 @@ class Game
     
     def turn_robot(turn)
         if @robot.robot_active?
-            dir_index = NAV.index(@robot.robot[:dir])
+            direction_index = ORIENTATION.index(@robot.robot[:direction])
             case turn
                 when "LEFT"
-                    dir_index === 0 ? dir_index = T_SIZE - 1 : dir_index -= 1
+                    direction_index === 0 ? direction_index = TABLE_SIZE - 1 : direction_index -= 1
                 when "RIGHT"
-                    dir_index === T_SIZE - 1 ? dir_index = 0 : dir_index += 1
+                    direction_index === TABLE_SIZE - 1 ? direction_index = 0 : direction_index += 1
             end
-            @robot.set_robot_direction(NAV[dir_index])
+            @robot.set_robot_direction(ORIENTATION[direction_index])
         else
             puts ERROR_MSG[:robot_inactive]
         end
@@ -42,17 +42,17 @@ class Game
     
     def move_robot
         if @robot.robot_active?
-            moveY = DIRECTION[@robot.robot[:dir]][0]
-            moveX = DIRECTION[@robot.robot[:dir]][1]
-            curX = @robot.robot[:pos][0]
-            curY = @robot.robot[:pos][1]
+            moveY = DIRECTION[@robot.robot[:direction]][0]
+            moveX = DIRECTION[@robot.robot[:direction]][1]
+            curX = @robot.robot[:position][0]
+            curY = @robot.robot[:position][1]
     
             # check if the move takes it out of bounds
-            if (curX + moveX > T_SIZE || curY - moveY > T_SIZE ||
+            if (curX + moveX > TABLE_SIZE || curY - moveY > TABLE_SIZE ||
                 curX + moveX < 0 || curY - moveY < 0)
                 puts ERROR_MSG[:off_table]
             else
-                position_robot(curX + moveX, curY - moveY, @robot.robot[:dir])
+                position_robot(curX + moveX, curY - moveY, @robot.robot[:direction])
             end
         else
             puts ERROR_MSG[:robot_inactive]
@@ -72,7 +72,7 @@ class Game
 
     def commands(command)
         command = command.upcase
-        placing = command.match(/^PLACE *([0-#{T_SIZE}]), *([0-#{T_SIZE}]), *(NORTH|SOUTH|EAST|WEST)$/i)
+        placing = command.match(/^PLACE *([0-#{TABLE_SIZE}]), *([0-#{TABLE_SIZE}]), *(NORTH|SOUTH|EAST|WEST)$/i)
         unless (placing === nil)
             col, row, direction = placing.captures
             command = "PLACED"
