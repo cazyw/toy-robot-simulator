@@ -12,7 +12,7 @@
 
 class Table
     attr_accessor :table
-    @table_size = 0;
+    # @table_size = 0;
 
     def initialize(size)
         @table = Array.new(size) { Array.new(size, "x") }
