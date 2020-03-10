@@ -1,12 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    power_assert (1.1.0)
+    power_assert (1.1.6)
     rake (12.0.0)
     test-unit (3.2.5)
       power_assert
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
@@ -14,4 +15,4 @@ DEPENDENCIES
   test-unit (= 3.2.5)
 
 BUNDLED WITH
-   1.13.7
+   1.17.2
